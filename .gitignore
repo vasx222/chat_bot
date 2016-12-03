@@ -1,1 +1,5 @@
 start_cmd.bat
+debug
+.vs
+simple_algorithm\Debug
+*.opendb
