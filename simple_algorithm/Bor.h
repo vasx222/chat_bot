@@ -10,7 +10,7 @@ public:
 	Bor() : root(new Node('*')) {}
 	void AddToBor(string const & str, int const quIndex, bool markAllLetters = false); // Добавить в бор строку
 	set<int> const * const SearchInBor(string const & str); // Найти в боре строку и вернуть set
-	void SearchPartial(string const & str, vector<int> & queCnt, int const quAmount);
+	void SearchPartial(string const & str, vector<pair<int, int> > & queCnt, int const quAmount);
 	void PrintBor();
 private:	
 	static int CharToId(char c);

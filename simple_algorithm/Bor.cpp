@@ -65,10 +65,14 @@ set<int> const * const Bor::SearchInBor(string const & str)
 	return nullptr;
 }
 
-void Bor::SearchPartial(string const & str, vector<int> & queCnt, int const quAmount)
+void Bor::SearchPartial(string const & str, vector<pair<int, int> > & queCnt, int const quAmount)
 {
 	if (str.length() == 0) return;
-	if (queCnt.size() != quAmount) queCnt.resize(quAmount, 0);
+	if (queCnt.size() != quAmount)
+	{
+		queCnt.resize(quAmount);
+		for (int i = 0; i < quAmount; i++) queCnt[i] = make_pair(0, i);
+	}
 	int index = 0;
 	Node * node = root;
 	while (index <= str.length())
@@ -79,7 +83,7 @@ void Bor::SearchPartial(string const & str, vector<int> & queCnt, int const quAm
 		index++;
 		for (auto it = node->quIndeces.begin(); it != node->quIndeces.end(); ++it)
 		{
-			queCnt[(*it)]++;
+			queCnt[(*it)].first++;
 		}
 	}
 }
