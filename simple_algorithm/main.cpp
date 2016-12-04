@@ -1,46 +1,48 @@
 #include <iostream>
-#include <libxl.h>
 #include <string>
-using namespace libxl;
-using namespace std;
-void CreateSimpleXML()
-{
-	Book* book = xlCreateBook(); // xlCreateXMLBook() for xlsx
-	if (book)
-	{
-		Sheet* sheet = book->addSheet("Sheet1");
-		if (sheet)
-		{
-			sheet->writeStr(2, 1, "Hello, World !");
-			sheet->writeNum(3, 1, 1000);
-		}
-		book->save("my_example.xls");
-		book->release();
-	}
-}
+#include <set>
+#include <vector>
+#include <windows.h>
+#include "Xml.h"
+#include "Bor.h"
+#include "Str.h"
 
-void ParseXMLQuestions(string * que, string * ans)
-{
-	Book * book = xlCreateXMLBook();
-	book->load("questions.xlsx");
-	Sheet * sheet = book->getSheet(0);
-
-	for (int i = 0; i < 40; i++)
-	{
-		que[i] = sheet->readStr(i + 1, 1);
-		ans[i] = sheet->readStr(i + 1, 2);
-	}
-	book->release();
-}
+const int quAmount = 40;
 
 int main()
 {
-	setlocale(LC_ALL, "Rus");
-	string que[40], ans[40];
-	ParseXMLQuestions(que, ans);
-	for (int i = 0; i < 40; i++)
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251); // + в настройках консоли включить lucida console
+	vector<string> que(quAmount), ans(quAmount);
+	ParseXMLQuestions(que, ans, quAmount);
+
+	Bor bor;
+	vector<vector<string> > aWords(quAmount);
+	for (int i = 0; i < (int)aWords.size(); i++)
 	{
-		cout << "QUESTION: " << que[i] << "\nANSWER: " << ans[i] << "\n\n";
+		CutStrIntoWords(que[i], aWords[i]);
+		for (int j = 0; j < (int)aWords[i].size(); j++)
+		{
+			bor.AddToBor(aWords[i][j], i, true);
+		}
 	}
+
+	cout << "TYPE SOME WORDS:" << endl;
+	string userStr;
+	getline(cin, userStr);
+	vector<string> userWords;
+	CutStrIntoWords(userStr, userWords);
+	
+	vector<int> queCnt(quAmount);
+	for (int i = 0; i < (int)userWords.size(); i++)
+	{
+		bor.SearchPartial(userWords[i], queCnt, quAmount);
+	}
+	int imax = -1;
+	for (int i = 0; i < (int)queCnt.size(); i++)
+	{
+		if (imax == -1 || queCnt[imax] < queCnt[i]) imax = i;
+	}
+	cout << "FOUND QUESTION #" << imax + 1 << ":" << endl << que[imax] << endl;
 	system("pause");
 }
