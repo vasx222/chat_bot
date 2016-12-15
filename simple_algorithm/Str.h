@@ -8,7 +8,7 @@ using namespace std;
 
 string & ToLowerCase(string & str)
 {
-	for (int i = 0; i < str.length(); i++)
+	for (int i = 0; i < (int)str.length(); i++)
 	{
 		if ('A' <= str[i] && str[i] <= 'Z') str[i] = 'a' + str[i] - 'A';
 		else
@@ -22,7 +22,7 @@ void CutStrIntoWords(string const & str, vector<string> & words)
 	words.clear();
 	int beginIndex;
 	bool found = false;
-	for (int i = 0; i < str.length(); i++)
+	for (int i = 0; i < (int)str.length(); i++)
 	{
 		if (LETTER(str[i]))
 		{

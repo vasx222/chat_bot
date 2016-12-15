@@ -26,7 +26,7 @@ void ParseXMLQuestions(vector<string> & que, vector<string> & ans, int const quA
 	que.resize(quAmount);
 	ans.resize(quAmount);
 	Book * book = xlCreateXMLBook();
-	book->load("questions.xlsx");
+	book->load("voprosy.xlsx");
 	Sheet * sheet = book->getSheet(0);
 
 	for (int i = 0; i < quAmount; i++)
