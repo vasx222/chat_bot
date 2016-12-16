@@ -19,7 +19,7 @@ private:
 	{
 	public:
 		Node(char const c) : letter(Bor::CharToId(c)) {}
-		int letter; // 0..32 + 33..58 - номер буквы
+		int letter; // 0..32 + 33..58 + 59 + 68 - номер буквы
 		set<int> quIndeces;  /*если это терминальная вершина,
 								то здесь хранится номер вопроса, к которому принадлежит слово*/
 		map<int, Node*> pointers; /*указатели на следующие вершины*/

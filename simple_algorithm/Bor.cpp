@@ -11,6 +11,10 @@ int Bor::CharToId(char const c)
 	{
 		return c - 'a' + 33;
 	}
+	if ('0' <= c && c <= '9')
+	{
+		return c - '0' + 59;
+	}
 	return -1;
 }
 
